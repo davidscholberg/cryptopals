@@ -1,0 +1,27 @@
+#include <stdbool.h>
+
+#include "run.h"
+#include "solutions.h"
+
+// Function pointer type for solution functions.
+//
+// A solution function is a function that solves a specific cryptopals challenge. The inputs are a
+// string buffer and size. The function is meant to write the computed answer to the string buffer.
+// The return value tells if the function succeeded or not.
+typedef bool (*solution)(char* const, const int);
+
+// Array of all implemented solutions.
+static const solution solutions[] = {
+    s01,
+};
+
+// Number of items in the solutions array.
+static const int solutions_size = sizeof(solutions) / sizeof(solution);
+
+solution_status run_solution(const int n, char* const out_buffer, const int out_buffer_size) {
+    if (n >= solutions_size) {
+        return solution_not_found;
+    }
+    const bool success = solutions[n](out_buffer, out_buffer_size);
+    return success ? solution_success : solution_failure;
+}
