@@ -13,6 +13,7 @@ typedef bool (*solution)(char* const, const int);
 // Array of all implemented solutions.
 static const solution solutions[] = {
     s01,
+    s02,
 };
 
 // Number of items in the solutions array.

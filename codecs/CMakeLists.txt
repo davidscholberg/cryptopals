@@ -3,4 +3,5 @@ target_sources(
     PRIVATE
     base64.c
     hex.c
+    xor.c
 )

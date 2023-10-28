@@ -1,5 +1,34 @@
 #include <stdbool.h>
 
+#include "hex.h"
+
+static const char *const hex_digits = "0123456789abcdef";
+
+bool bytes_to_hex(
+    const unsigned char *const byte_buffer,
+    const int byte_buffer_size,
+    char *const hex_buffer,
+    const int hex_buffer_size
+) {
+    if (bytes_to_hex_size(byte_buffer_size) > hex_buffer_size) {
+        return false;
+    }
+
+    int hex_index = 0;
+    for (int i = 0; i < byte_buffer_size; i++) {
+        int quartet_value = byte_buffer[i] >> 4;
+        hex_buffer[hex_index] = hex_digits[quartet_value];
+        hex_index++;
+
+        quartet_value = byte_buffer[i] & 0xf;
+        hex_buffer[hex_index] = hex_digits[quartet_value];
+        hex_index++;
+    }
+
+    hex_buffer[hex_index] = 0;
+    return true;
+}
+
 bool hex_to_bytes(
     const char *const hex,
     unsigned char *const byte_buffer,
