@@ -1,8 +1,5 @@
 target_sources(
     cryptopals
     PRIVATE
-    run.c
-    s01.c
-    s02.c
-    s03.c
+    repeat_buffer.c
 )

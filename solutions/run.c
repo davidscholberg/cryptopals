@@ -14,6 +14,7 @@ typedef bool (*solution)(char* const, const int);
 static const solution solutions[] = {
     s01,
     s02,
+    s03,
 };
 
 // Number of items in the solutions array.

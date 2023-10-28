@@ -7,7 +7,7 @@ bool xor_bytes(
     unsigned char* const result_buffer,
     const int result_buffer_size
 ) {
-    if (result_buffer_size > operand_size) {
+    if (result_buffer_size < operand_size) {
         return false;
     }
 
