@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "analysis/english_score.h"
 #include "ciphers/xor.h"
 #include "codecs/hex.h"
+#include "uncrypt/break_xor.h"
 
 // Challenge 3: Decrypt the input message, which has been encrypted with a single repeating
 // character via xor.
@@ -18,34 +18,16 @@ bool s03(char* const out_buffer, const int out_buffer_size) {
         return false;
     }
 
-    float max_english_score = 0;
-    unsigned char best_candidate_char = 0;
-    unsigned char result_buffer[byte_buffer_size];
-    for (int i = 0; i <= 255; i++) {
-        unsigned char candidate_char = (unsigned char)i;
-        if (!xor_byte(
-                byte_buffer,
-                byte_buffer_size,
-                candidate_char,
-                result_buffer,
-                byte_buffer_size,
-                0,
-                1
-            )) {
-            return false;
-        }
-
-        float current_english_score = english_score(result_buffer, byte_buffer_size, 0, 1);
-        if (current_english_score > max_english_score) {
-            max_english_score = current_english_score;
-            best_candidate_char = candidate_char;
-        }
+    float score;
+    unsigned char key_char = 0;
+    if (!break_single_byte_xor(byte_buffer, byte_buffer_size, 0, 1, &key_char, &score)) {
+        return false;
     }
 
     if (!xor_byte(
             byte_buffer,
             byte_buffer_size,
-            best_candidate_char,
+            key_char,
             (unsigned char*)out_buffer,
             out_buffer_size,
             0,
