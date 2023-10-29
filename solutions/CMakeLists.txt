@@ -1,6 +1,7 @@
 target_sources(
     cryptopals
     PRIVATE
+    answers.c
     run.c
     s01.c
     s02.c
