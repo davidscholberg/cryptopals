@@ -3,8 +3,8 @@
 #include <string.h>
 
 #include "analysis/english_score.h"
+#include "ciphers/xor.h"
 #include "codecs/hex.h"
-#include "codecs/xor.h"
 
 // Challenge 3: Decrypt the input message, which has been encrypted with a single repeating
 // character via xor.

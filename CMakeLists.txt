@@ -14,6 +14,7 @@ target_compile_features(cryptopals PUBLIC c_std_17)
 target_compile_options(cryptopals PUBLIC -Wall -Wextra -Werror -Wpedantic)
 
 add_subdirectory(analysis)
+add_subdirectory(ciphers)
 add_subdirectory(codecs)
 add_subdirectory(solutions)
 add_subdirectory(utility)

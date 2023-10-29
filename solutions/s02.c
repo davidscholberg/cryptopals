@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "ciphers/xor.h"
 #include "codecs/hex.h"
-#include "codecs/xor.h"
 
 // Challenge 2: XOR the decoded bytes of the two hex inputs and hex encode the result.
 bool s02(char* const out_buffer, const int out_buffer_size) {
