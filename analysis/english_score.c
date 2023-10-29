@@ -16,9 +16,14 @@ static const float letter_frequencies[] = {
 // https://www.researchgate.net/figure/Probability-of-characters-in-English-The-SPACE-character-represented-by-has-the_fig2_47518347
 static const float space_frequency = 20;
 
-float english_score(const unsigned char* const buffer, const int buffer_size) {
+float english_score(
+    const unsigned char* const buffer,
+    const int buffer_size,
+    const int start,
+    const int step
+) {
     float score = 0;
-    for (int i = 0; i < buffer_size; i++) {
+    for (int i = start; i < buffer_size; i += step) {
         if (is_lowercase_letter(buffer[i])) {
             score += letter_frequencies[buffer[i] - 'a'];
         } else if (is_uppercase_letter(buffer[i])) {
