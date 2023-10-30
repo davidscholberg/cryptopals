@@ -5,6 +5,7 @@ static const char* const answers[] = {
     "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t",
     "746865206b696420646f6e277420706c6179",
     "Cooking MC's like a pound of bacon",
+    "Now that the party is jumping\n",
 };
 
 // Number of items in the answers array.

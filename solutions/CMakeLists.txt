@@ -6,4 +6,5 @@ target_sources(
     s01.c
     s02.c
     s03.c
+    s04.c
 )
