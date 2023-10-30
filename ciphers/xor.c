@@ -37,3 +37,32 @@ bool xor_bytes(
 
     return true;
 }
+
+bool xor_repeating_key(
+    const unsigned char* const input_buffer,
+    const int input_buffer_size,
+    const unsigned char* const key_buffer,
+    const int key_buffer_size,
+    unsigned char* const result_buffer,
+    const int result_buffer_size
+) {
+    if (result_buffer_size < input_buffer_size) {
+        return false;
+    }
+
+    for (int i = 0; i < key_buffer_size; i++) {
+        if (!xor_byte(
+                input_buffer,
+                input_buffer_size,
+                key_buffer[i],
+                result_buffer,
+                result_buffer_size,
+                i,
+                key_buffer_size
+            )) {
+            return false;
+        }
+    }
+
+    return true;
+}
