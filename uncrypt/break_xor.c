@@ -36,6 +36,8 @@ bool break_single_byte_xor(
     }
 
     *key_char = best_candidate_char;
-    *score = max_english_score;
+    if (score) {
+        *score = max_english_score;
+    }
     return true;
 }
