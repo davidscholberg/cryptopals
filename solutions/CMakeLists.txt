@@ -10,4 +10,5 @@ target_sources(
     s05.c
     s06.c
     s07.c
+    s08.c
 )

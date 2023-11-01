@@ -3,4 +3,5 @@ target_sources(
     PRIVATE
     english_score.c
     hamming_distance.c
+    repeating_blocks.c
 )
