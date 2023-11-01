@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "gcrypt.h"
+#include "aes.h"
 
 #include "codecs/base64.h"
 #include "resources/s07_base64_string.h"
+
+#define block_size 16
 
 // Challenge 7: Decrypt the base64-encoded string using AES in ECB mode with key "YELLOW SUBMARINE".
 bool s07(char* const out_buffer, const int out_buffer_size) {
@@ -14,35 +16,18 @@ bool s07(char* const out_buffer, const int out_buffer_size) {
     if (!base64_to_bytes_size(s07_base64_string, &input_bytes_size)) {
         return false;
     }
-    unsigned char input_bytes[input_bytes_size];
-    if (!base64_to_bytes(s07_base64_string, input_bytes, input_bytes_size)) {
+    if (input_bytes_size % block_size != 0 || input_bytes_size > out_buffer_size) {
+        return false;
+    }
+    if (!base64_to_bytes(s07_base64_string, (unsigned char* const)out_buffer, input_bytes_size)) {
         return false;
     }
 
-    // initialize gcrypt
-    gcry_check_version(0);
-    gcry_control(GCRYCTL_DISABLE_SECMEM, 0);
-    gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
-
-    gcry_cipher_hd_t aes_ecb_handle;
-    if (gcry_cipher_open(&aes_ecb_handle, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_ECB, 0)) {
-        return false;
+    struct AES_ctx aes_ecb_context;
+    AES_init_ctx(&aes_ecb_context, (const unsigned char* const)key);
+    for (int i = 0; i < input_bytes_size / block_size; i++) {
+        AES_ECB_decrypt(&aes_ecb_context, (unsigned char* const)out_buffer + (i * block_size));
     }
-    if (gcry_cipher_setkey(aes_ecb_handle, key, strlen(key))) {
-        gcry_cipher_close(aes_ecb_handle);
-        return false;
-    }
-    if (gcry_cipher_decrypt(
-            aes_ecb_handle,
-            out_buffer,
-            out_buffer_size,
-            input_bytes,
-            input_bytes_size
-        )) {
-        gcry_cipher_close(aes_ecb_handle);
-        return false;
-    }
-    gcry_cipher_close(aes_ecb_handle);
 
     out_buffer[input_bytes_size] = 0;
 
