@@ -5,7 +5,7 @@
 #include "solutions/answers.h"
 #include "solutions/run.h"
 
-#define computed_answer_buffer_size 1024
+#define computed_answer_buffer_size 10240
 
 int main(const int argc, const char** const argv) {
     const char* const usage = "usage: %s [challenge number]\n";

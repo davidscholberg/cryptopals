@@ -3,4 +3,5 @@ target_sources(
     PRIVATE
     s04_string_array.c
     s06_base64_string.c
+    s07_base64_string.c
 )
