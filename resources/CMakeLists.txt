@@ -5,4 +5,5 @@ target_sources(
     s06_base64_string.c
     s07_base64_string.c
     s08_string_array.c
+    s10_base64_string.c
 )

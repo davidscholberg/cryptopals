@@ -15,6 +15,7 @@ static const char* const answers[] = {
     "d28397a93eab8d6aecd566489154789a6b0308649af70dc06f4fd5d2d69c744cd283d403180c98c8f6db1f2a3f9c40"
     "40deb0ab51b29933f2c123c58386b06fba186a",
     "59454c4c4f57205355424d4152494e4504040404",
+    "I'm back and I'm ringin' the bell "
 };
 
 // Number of items in the answers array.

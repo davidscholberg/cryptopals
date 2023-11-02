@@ -20,14 +20,6 @@ bool s02(char* const out_buffer, const int out_buffer_size) {
         return false;
     }
     unsigned char xor_byte_buffer[byte_buffer_size];
-    if (!xor_bytes(
-            input_byte_buffer_1,
-            input_byte_buffer_2,
-            byte_buffer_size,
-            xor_byte_buffer,
-            byte_buffer_size
-        )) {
-        return false;
-    }
+    xor_bytes(input_byte_buffer_1, input_byte_buffer_2, xor_byte_buffer, byte_buffer_size);
     return bytes_to_hex(xor_byte_buffer, byte_buffer_size, out_buffer, out_buffer_size);
 }

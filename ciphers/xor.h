@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 // Take the xor of the input buffer with the input char repeated over it. The start parameter
 // indicates an offset for where to start the xor. The step parameter should be set to 1 if you want
 // to xor contiguous values in the input buffer, or greater than one if you want to xor values that
@@ -15,14 +17,12 @@ bool xor_byte(
     const int step
 );
 
-// Take the xor of the two operand byte arrays and store result in result buffer. Returns true on
-// success, false if result buffer is smaller than the operands.
-bool xor_bytes(
+// Take the xor of the two operand byte arrays and store result in result buffer.
+void xor_bytes(
     const unsigned char* const operand1,
     const unsigned char* const operand2,
-    const int operand_size,
     unsigned char* const result_buffer,
-    const int result_buffer_size
+    const int buffer_size
 );
 
 // Take the xor of the input buffer with the key buffer repeated over it. Returns true on success,
