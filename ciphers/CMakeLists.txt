@@ -1,6 +1,6 @@
 target_sources(
     cryptopals
     PRIVATE
-    aes_cbc.c
+    aes.c
     xor.c
 )

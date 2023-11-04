@@ -14,12 +14,7 @@ bool s09(char* const out_buffer, __attribute__((unused)) const int out_buffer_si
     int padded_buffer_size =
         input_buffer_length + pkcs7_padding_needed(input_buffer_length, block_size);
     unsigned char padded_buffer[padded_buffer_size];
-    pkcs7_pad(
-        (const unsigned char* const)input_buffer,
-        padded_buffer,
-        input_buffer_length,
-        block_size
-    );
+    pkcs7_pad((unsigned char* const)input_buffer, padded_buffer, input_buffer_length, block_size);
 
     if (!bytes_to_hex(padded_buffer, padded_buffer_size, out_buffer, out_buffer_size)) {
         return false;

@@ -10,3 +10,4 @@ bool s07(char* const out_buffer, const int out_buffer_size);
 bool s08(char* const out_buffer, const int out_buffer_size);
 bool s09(char* const out_buffer, const int out_buffer_size);
 bool s10(char* const out_buffer, const int out_buffer_size);
+bool s11(char* const out_buffer, const int out_buffer_size);
