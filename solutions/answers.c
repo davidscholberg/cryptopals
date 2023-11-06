@@ -17,6 +17,8 @@ static const char* const answers[] = {
     "59454c4c4f57205355424d4152494e4504040404",
     "I'm back and I'm ringin' the bell ",
     "guessed all cipher modes correctly",
+    "Rollin' in my 5.0\nWith my rag-top down so my hair can blow\nThe girlies on standby waving "
+    "just to say hi\nDid you stop? No, I just drove by\n",
 };
 
 // Number of items in the answers array.

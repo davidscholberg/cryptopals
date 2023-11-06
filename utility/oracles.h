@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "ciphers/aes.h"
 #include "pkcs7_pad.h"
 
@@ -26,3 +28,18 @@ int aes_ecb_cbc_oracle(
     unsigned char* const ciphertext,
     cipher_mode* const cipher_mode_used
 );
+
+// Take the given plaintext, append a constant but unknown string to it, pkcs7 pad it, and encrypt
+// the whole thing via AES ECB with a constant but unknown key. The given ciphertext buffer must
+// already have the needed amount of space, which you can determine with the aes_ecb_oracle_size
+// function. The given plaintext_size should not include the extra space needed for the unknown
+// string.
+bool aes_ecb_oracle(
+    const unsigned char* const plaintext,
+    const int plaintext_size,
+    unsigned char* const ciphertext
+);
+
+// Returns the amount of space needed to hold the output of aes_ecb_oracle with the given input
+// size.
+int aes_ecb_oracle_size(const int plaintext_size);

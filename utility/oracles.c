@@ -53,3 +53,40 @@ int aes_ecb_cbc_oracle(
 
     return total_buffer_size;
 }
+
+// Secret text that gets appended to the plaintext input of aes_ecb_oracle. Challenge 12 calls for
+// this string to be initially base64 encoded, but I don't think that pre-decoding it has any
+// bearing on successfully completing the challenge.
+static const char* const aes_ecb_oracle_secret_text =
+    "Rollin' in my 5.0\nWith my rag-top down so my hair can blow\nThe girlies on standby waving "
+    "just to say hi\nDid you stop? No, I just drove by\n";
+
+// Secret key used by the aes_ecb_oracle.
+static const char* const aes_ecb_oracle_secret_key = "iceicebabyiceice";
+
+bool aes_ecb_oracle(
+    const unsigned char* const plaintext,
+    const int plaintext_size,
+    unsigned char* const ciphertext
+) {
+    memcpy(ciphertext, plaintext, plaintext_size);
+
+    const int sectret_text_size = strlen(aes_ecb_oracle_secret_text);
+    memcpy(ciphertext + plaintext_size, aes_ecb_oracle_secret_text, sectret_text_size);
+
+    const int total_data_size = plaintext_size + sectret_text_size;
+    pkcs7_pad(ciphertext, NULL, total_data_size, aes_block_size);
+
+    const int padded_plaintext_size = aes_ecb_oracle_size(plaintext_size);
+    return aes_ecb_encrypt(
+        ciphertext,
+        padded_plaintext_size,
+        NULL,
+        (const unsigned char* const)aes_ecb_oracle_secret_key
+    );
+}
+
+int aes_ecb_oracle_size(const int plaintext_size) {
+    const int total_data_size = plaintext_size + strlen(aes_ecb_oracle_secret_text);
+    return total_data_size + pkcs7_padding_needed(total_data_size, aes_block_size);
+}
