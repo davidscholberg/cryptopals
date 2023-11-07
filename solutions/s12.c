@@ -6,7 +6,7 @@
 #include "analysis/repeating_blocks.h"
 #include "utility/oracles.h"
 
-// Challenge 12:
+// Challenge 12: Decrypt the string that's being appended to the input of the encryption oracle.
 bool s12(char* const out_buffer, const int out_buffer_size) {
     // Determine block size and unknown string size.
     int determined_block_size = 0;

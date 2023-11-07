@@ -43,3 +43,25 @@ bool aes_ecb_oracle(
 // Returns the amount of space needed to hold the output of aes_ecb_oracle with the given input
 // size.
 int aes_ecb_oracle_size(const int plaintext_size);
+
+// Decrypt the given profile under the secret key used to encrypt it. The given plaintext buffer
+// must have at least as much space allocated as the ciphertext. This function exists merely to
+// verify the result of breaking encrypted_profile_oracle.
+bool encrypted_profile_decrypt(
+    unsigned char* const ciphertext,
+    const int ciphertext_size,
+    unsigned char* const plaintext
+);
+
+// Takes the given email address, formats it into a profile string, and encrypts the profile string
+// under a consistent secret key using AES ECB with a block size of 16. The given ciphertext buffer
+// must already have the needed amount of space, which can be determined via the
+// encrypted_profile_oracle_size function.
+bool encrypted_profile_oracle(
+    const unsigned char* const email,
+    const int email_size,
+    unsigned char* const ciphertext
+);
+
+// Returns the amount of space needed to hold the encrypted profile given the email address size.
+int encrypted_profile_oracle_size(const int email_size);

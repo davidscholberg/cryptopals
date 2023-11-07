@@ -90,3 +90,48 @@ int aes_ecb_oracle_size(const int plaintext_size) {
     const int total_data_size = plaintext_size + strlen(aes_ecb_oracle_secret_text);
     return total_data_size + pkcs7_padding_needed(total_data_size, aes_block_size);
 }
+
+static const char* const profile_prefix = "email=";
+static const char* const profile_suffix = "&uid=10&role=user";
+static const char* const profile_secret_key = "vanilla||allinav";
+
+bool encrypted_profile_decrypt(
+    unsigned char* const ciphertext,
+    const int ciphertext_size,
+    unsigned char* const plaintext
+) {
+    return aes_ecb_decrypt(
+        ciphertext,
+        ciphertext_size,
+        plaintext,
+        (const unsigned char* const)profile_secret_key
+    );
+}
+
+bool encrypted_profile_oracle(
+    const unsigned char* const email,
+    const int email_size,
+    unsigned char* const ciphertext
+) {
+    const int profile_prefix_size = strlen(profile_prefix);
+    memcpy(ciphertext, profile_prefix, profile_prefix_size);
+    memcpy(ciphertext + profile_prefix_size, email, email_size);
+    const int profile_suffix_size = strlen(profile_suffix);
+    memcpy(ciphertext + profile_prefix_size + email_size, profile_suffix, profile_suffix_size);
+
+    const int data_size = profile_prefix_size + email_size + profile_suffix_size;
+    pkcs7_pad(ciphertext, NULL, data_size, aes_block_size);
+    const int padded_data_size = data_size + pkcs7_padding_needed(data_size, aes_block_size);
+
+    return aes_ecb_encrypt(
+        ciphertext,
+        padded_data_size,
+        NULL,
+        (const unsigned char* const)profile_secret_key
+    );
+}
+
+int encrypted_profile_oracle_size(const int email_size) {
+    const int data_size = email_size + strlen(profile_prefix) + strlen(profile_suffix);
+    return data_size + pkcs7_padding_needed(data_size, aes_block_size);
+}

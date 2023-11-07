@@ -19,6 +19,7 @@ static const char* const answers[] = {
     "guessed all cipher modes correctly",
     "Rollin' in my 5.0\nWith my rag-top down so my hair can blow\nThe girlies on standby waving "
     "just to say hi\nDid you stop? No, I just drove by\n",
+    "email=aaaaaaa@a.com&uid=10&role=admin",
 };
 
 // Number of items in the answers array.
