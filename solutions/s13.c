@@ -2,51 +2,29 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "analysis/repeating_blocks.h"
+#include "analysis/oracle_info.h"
 #include "utility/oracles.h"
 #include "utility/pkcs7_pad.h"
 
 // Challenge 13: Create a profile with the admin role using ECB cut and paste.
 bool s13(char* const out_buffer, const int out_buffer_size) {
-    // Determine block size and added data size.
     int block_size = 0;
     int added_data_size = 0;
-    const int intital_buffer_size = encrypted_profile_oracle_size(1);
-    for (int data_size = 2; data_size <= 20; data_size++) {
-        const int current_buffer_size = encrypted_profile_oracle_size(data_size);
-        if (current_buffer_size > intital_buffer_size) {
-            block_size = current_buffer_size - intital_buffer_size;
-            added_data_size = current_buffer_size - block_size - data_size;
-            break;
-        }
-    }
-
-    // Determine prefix size (currently assumes that the prefix is less than or equal to block
-    // size).
+    bool is_using_ecb = false;
     int prefix_size = 0;
-    const int prefix_guess_input_max_size = block_size * 3;
-    unsigned char prefix_guess_input[prefix_guess_input_max_size];
-    for (int i = 0; i < prefix_guess_input_max_size; i++) {
-        prefix_guess_input[i] = 0;
+    if (!oracle_info(
+            encrypted_profile_oracle,
+            encrypted_profile_oracle_size,
+            &block_size,
+            &added_data_size,
+            &is_using_ecb,
+            &prefix_size,
+            NULL
+        )) {
+        return false;
     }
-    const int prefix_guess_output_max_size =
-        encrypted_profile_oracle_size(prefix_guess_input_max_size);
-    unsigned char prefix_guess_output[prefix_guess_output_max_size];
-    const unsigned char* const prefix_guess_output_block_2 = prefix_guess_output + block_size;
-    const unsigned char* const prefix_guess_output_block_3 = prefix_guess_output + (block_size * 2);
-    for (int i = 0; i <= block_size; i++) {
-        if (!encrypted_profile_oracle(
-                prefix_guess_input,
-                (block_size * 2) + i,
-                prefix_guess_output
-            )) {
-            return false;
-        }
-
-        if (!memcmp(prefix_guess_output_block_2, prefix_guess_output_block_3, block_size)) {
-            prefix_size = block_size - i;
-            break;
-        }
+    if (!is_using_ecb) {
+        return false;
     }
 
     // Craft an input to get the output block for the string "admin" with pkcs7 padding.
