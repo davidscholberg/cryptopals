@@ -22,6 +22,7 @@ static const char* const answers[] = {
     "email=aaaaaaa@a.com&uid=10&role=admin",
     "Burning them, if you ain't quick and nimble\nI go crazy when I hear a cymbal\nAnd a hi-hat "
     "with a souped up tempo\nI'm on a roll, it's time to go solo\n",
+    "verified all paddings correctly",
 };
 
 // Number of items in the answers array.

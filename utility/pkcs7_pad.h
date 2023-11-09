@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 // Gives the amount of padding needed for the given amount of data and block size.
 #define pkcs7_padding_needed(data_size, block_size) (block_size - (data_size % block_size))
 
@@ -16,3 +18,6 @@ void pkcs7_pad(
     int data_size,
     int block_size
 );
+
+// Returns true if the given buffer is padded properly, false otherwise.
+bool pkcs7_validate(const unsigned char* const buffer, const int buffer_size, const int block_size);
