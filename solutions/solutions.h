@@ -15,3 +15,4 @@ bool s12(char* const out_buffer, const int out_buffer_size);
 bool s13(char* const out_buffer, const int out_buffer_size);
 bool s14(char* const out_buffer, const int out_buffer_size);
 bool s15(char* const out_buffer, const int out_buffer_size);
+bool s16(char* const out_buffer, const int out_buffer_size);

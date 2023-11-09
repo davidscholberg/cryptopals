@@ -27,6 +27,7 @@ static const solution solutions[] = {
     s13,
     s14,
     s15,
+    s16,
 };
 
 // Number of items in the solutions array.
