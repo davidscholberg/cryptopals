@@ -100,6 +100,42 @@ int aes_ecb_oracle_size(const int plaintext_size) {
     return total_data_size + pkcs7_padding_needed(total_data_size, aes_block_size);
 }
 
+static const char* const aes_ecb_with_prefix_oracle_prefix = "Cooking MC's like a pound of bacon";
+static const char* const aes_ecb_with_prefix_oracle_suffix =
+    "Burning them, if you ain't quick and nimble\nI go crazy when I hear a cymbal\nAnd a hi-hat "
+    "with a souped up tempo\nI'm on a roll, it's time to go solo\n";
+
+bool aes_ecb_with_prefix_oracle(
+    const unsigned char* const plaintext,
+    const int plaintext_size,
+    unsigned char* const ciphertext
+) {
+    static const char* const key = "iceicebabybaby!!";
+
+    const int prefix_size = strlen(aes_ecb_with_prefix_oracle_prefix);
+    memcpy(ciphertext, aes_ecb_with_prefix_oracle_prefix, prefix_size);
+    memcpy(ciphertext + prefix_size, plaintext, plaintext_size);
+    const int suffix_size = strlen(aes_ecb_with_prefix_oracle_suffix);
+    memcpy(
+        ciphertext + prefix_size + plaintext_size,
+        aes_ecb_with_prefix_oracle_suffix,
+        suffix_size
+    );
+
+    const int total_data_size = prefix_size + plaintext_size + suffix_size;
+    pkcs7_pad(ciphertext, NULL, total_data_size, aes_block_size);
+    const int padded_data_size =
+        total_data_size + pkcs7_padding_needed(total_data_size, aes_block_size);
+
+    return aes_ecb_encrypt(ciphertext, padded_data_size, NULL, (const unsigned char* const)key);
+}
+
+int aes_ecb_with_prefix_oracle_size(const int plaintext_size) {
+    const int total_data_size = strlen(aes_ecb_with_prefix_oracle_prefix) + plaintext_size +
+        strlen(aes_ecb_with_prefix_oracle_suffix);
+    return total_data_size + pkcs7_padding_needed(total_data_size, aes_block_size);
+}
+
 static const char* const profile_prefix = "email=";
 static const char* const profile_suffix = "&uid=10&role=user";
 static const char* const profile_secret_key = "vanilla||allinav";

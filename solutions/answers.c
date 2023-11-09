@@ -20,6 +20,8 @@ static const char* const answers[] = {
     "Rollin' in my 5.0\nWith my rag-top down so my hair can blow\nThe girlies on standby waving "
     "just to say hi\nDid you stop? No, I just drove by\n",
     "email=aaaaaaa@a.com&uid=10&role=admin",
+    "Burning them, if you ain't quick and nimble\nI go crazy when I hear a cymbal\nAnd a hi-hat "
+    "with a souped up tempo\nI'm on a roll, it's time to go solo\n",
 };
 
 // Number of items in the answers array.

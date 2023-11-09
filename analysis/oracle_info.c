@@ -3,6 +3,7 @@
 
 #include "oracle_info.h"
 #include "repeating_blocks.h"
+#include "utility/oracles.h"
 
 #define key_size_min 8
 #define key_size_max 32

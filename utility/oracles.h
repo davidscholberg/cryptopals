@@ -2,6 +2,15 @@
 
 #include <stdbool.h>
 
+// Function type for functions that take an input buffer, optionally prepend or append some unknown
+// text to it, pkcs7 pad this data to an unknown block size, and then encrypt the whole thing with
+// an unknown secret key.
+typedef bool (*oracle_fn)(const unsigned char* const, const int, unsigned char* const);
+
+// Function type for functions that return the size needed to hold the output of the associated
+// oracle function given the input size.
+typedef int (*oracle_size_fn)(const int);
+
 // Take the given plaintext, prepend and append unknown strings to it, pkcs7 pad the result, and
 // encrypt the whole thing with an unknown key using either ECB mode or CBC mode (chosen based on
 // unknown criteria). Returns true on success or false if there was an encryption error. The given
@@ -32,6 +41,21 @@ bool aes_ecb_oracle(
 // Returns the amount of space needed to hold the output of aes_ecb_oracle with the given input
 // size.
 int aes_ecb_oracle_size(const int plaintext_size);
+
+// Take the given plaintext, prepend and append two constant but unknown strings to it, pkcs7 pad
+// it, and encrypt the whole thing via AES ECB with a constant but unknown key. The given ciphertext
+// buffer must already have the needed amount of space, which you can determine with the
+// aes_ecb_with_prefix_oracle_size function. The given plaintext_size should not include the extra
+// space needed for the unknown strings.
+bool aes_ecb_with_prefix_oracle(
+    const unsigned char* const plaintext,
+    const int plaintext_size,
+    unsigned char* const ciphertext
+);
+
+// Returns the amount of space needed to hold the output of aes_ecb_with_prefix_oracle with the
+// given input size.
+int aes_ecb_with_prefix_oracle_size(const int plaintext_size);
 
 // Decrypt the given profile under the secret key used to encrypt it. The given plaintext buffer
 // must have at least as much space allocated as the ciphertext. This function exists merely to

@@ -5,11 +5,11 @@
 #include "uncrypt/break_ecb.h"
 #include "utility/oracles.h"
 
-// Challenge 12: Decrypt the string that's being appended to the input of the encryption oracle.
-bool s12(char* const out_buffer, const int out_buffer_size) {
+// Challenge 14: Decrypt the string that's being appended to the input of the encryption oracle.
+bool s14(char* const out_buffer, const int out_buffer_size) {
     const int suffix_size = break_ecb(
-        aes_ecb_oracle,
-        aes_ecb_oracle_size,
+        aes_ecb_with_prefix_oracle,
+        aes_ecb_with_prefix_oracle_size,
         (unsigned char* const)out_buffer,
         out_buffer_size - 1
     );
