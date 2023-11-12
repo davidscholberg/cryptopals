@@ -31,7 +31,7 @@ bool pkcs7_validate(
     }
 
     const int padding_size = buffer[buffer_size - 1];
-    if (padding_size > block_size) {
+    if (padding_size == 0 || padding_size > block_size) {
         return false;
     }
 
