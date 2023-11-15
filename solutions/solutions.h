@@ -17,3 +17,4 @@ bool s14(char* const out_buffer, const int out_buffer_size);
 bool s15(char* const out_buffer, const int out_buffer_size);
 bool s16(char* const out_buffer, const int out_buffer_size);
 bool s17(char* const out_buffer, const int out_buffer_size);
+bool s18(char* const out_buffer, const int out_buffer_size);

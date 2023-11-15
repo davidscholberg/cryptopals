@@ -25,6 +25,7 @@ static const char* const answers[] = {
     "verified all paddings correctly",
     "successfully flipped bits to get admin string",
     "With the bass kicked in and the Vega's are pumpin'",
+    "Yo, VIP Let's kick it Ice, Ice, baby Ice, Ice, baby ",
 };
 
 // Number of items in the answers array.

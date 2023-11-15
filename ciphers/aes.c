@@ -1,10 +1,14 @@
 #include <stdbool.h>
+#include <stdint.h>
 #include <string.h>
 
 #include "tiny-aes.h"
 
 #include "aes.h"
 #include "xor.h"
+
+// This should almost certainly be defined in a more centralized place.
+#define min(x, y) (((x) < (y)) ? (x) : (y))
 
 bool aes_cbc_decrypt(
     unsigned char* const ciphertext,
@@ -74,6 +78,52 @@ bool aes_cbc_encrypt(
     }
 
     return true;
+}
+
+void aes_ctr_decrypt(
+    unsigned char* const ciphertext,
+    const int ciphertext_size,
+    unsigned char* plaintext,
+    const unsigned char* const iv,
+    const unsigned char* const key
+) {
+    // CTR mode performs identical steps in encryption and decryption, so we merely pass along the
+    // args to the encrypt function.
+    aes_ctr_encrypt(ciphertext, ciphertext_size, plaintext, iv, key);
+}
+
+void aes_ctr_encrypt(
+    unsigned char* const plaintext,
+    const int plaintext_size,
+    unsigned char* ciphertext,
+    const unsigned char* const iv,
+    const unsigned char* const key
+) {
+    if (!ciphertext) {
+        ciphertext = plaintext;
+    }
+
+    unsigned char counter_block[aes_block_size];
+    memcpy(counter_block, iv, aes_block_size);
+    int64_t* counter = (int64_t*)(counter_block + (aes_block_size / 2));
+    unsigned char keystream[aes_block_size];
+
+    struct AES_ctx aes_ecb_context;
+    AES_init_ctx(&aes_ecb_context, key);
+
+    for (int i = 0; i < plaintext_size; i += aes_block_size) {
+        memcpy(keystream, counter_block, aes_block_size);
+        AES_ECB_encrypt(&aes_ecb_context, keystream);
+
+        xor_bytes(
+            keystream,
+            plaintext + i,
+            ciphertext + i,
+            min(aes_block_size, plaintext_size - i)
+        );
+
+        (*counter)++;
+    }
 }
 
 bool aes_ecb_decrypt(

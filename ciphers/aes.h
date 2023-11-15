@@ -24,6 +24,24 @@ bool aes_cbc_encrypt(
     const unsigned char* const key
 );
 
+// Decrypt ciphertext with aes using ctr mode. If plaintext is null, decryption happens in place.
+void aes_ctr_decrypt(
+    unsigned char* const ciphertext,
+    const int ciphertext_size,
+    unsigned char* plaintext,
+    const unsigned char* const iv,
+    const unsigned char* const key
+);
+
+// Encrypt plaintext with aes using ctr mode. If ciphertext is null, encryption happens in place.
+void aes_ctr_encrypt(
+    unsigned char* const plaintext,
+    const int plaintext_size,
+    unsigned char* ciphertext,
+    const unsigned char* const iv,
+    const unsigned char* const key
+);
+
 // Decrypt ciphertext with aes using ecb mode. If plaintext is null, decryption happens in place.
 // Returns true on success, false if the ciphertext size is not at least as large as one block.
 bool aes_ecb_decrypt(
