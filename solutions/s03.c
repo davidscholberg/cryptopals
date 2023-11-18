@@ -13,6 +13,9 @@ bool s03(char* const out_buffer, const int out_buffer_size) {
         "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
 
     const int byte_buffer_size = hex_to_bytes_size(strlen(input_hex));
+    if (byte_buffer_size + 1 > out_buffer_size) {
+        return false;
+    }
     unsigned char byte_buffer[byte_buffer_size];
     if (!hex_to_bytes(input_hex, byte_buffer, byte_buffer_size)) {
         return false;
@@ -20,21 +23,9 @@ bool s03(char* const out_buffer, const int out_buffer_size) {
 
     float score;
     unsigned char key_char = 0;
-    if (!break_single_byte_xor(byte_buffer, byte_buffer_size, 0, 1, &key_char, &score)) {
-        return false;
-    }
+    break_single_byte_xor(byte_buffer, byte_buffer_size, 0, 1, &key_char, &score);
 
-    if (!xor_byte(
-            byte_buffer,
-            byte_buffer_size,
-            key_char,
-            (unsigned char*)out_buffer,
-            out_buffer_size,
-            0,
-            1
-        )) {
-        return false;
-    }
+    xor_byte(byte_buffer, byte_buffer_size, key_char, (unsigned char*)out_buffer, 0, 1);
     out_buffer[byte_buffer_size] = 0;
 
     return true;

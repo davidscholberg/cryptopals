@@ -7,3 +7,22 @@ target_sources(
     s08_string_array.c
     s10_base64_string.c
 )
+
+# We will gradually transition from hard-coding resource data in c files (above) to reading resource
+# data from text files (below).
+set(
+    resources
+    s19_base64_string_array.txt
+)
+foreach(resource IN LISTS resources)
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${resource}
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/${resource}
+            ${CMAKE_CURRENT_BINARY_DIR}/${resource}
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${resource}
+    )
+endforeach()
+list(TRANSFORM resources PREPEND ${CMAKE_CURRENT_BINARY_DIR}/)
+add_custom_target(copy_resources ALL DEPENDS ${resources})
+add_dependencies(cryptopals copy_resources)

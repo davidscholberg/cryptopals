@@ -12,16 +12,13 @@ bool s05(char* const out_buffer, const int out_buffer_size) {
     const char* const key = "ICE";
     const int input_string_size = strlen(input_string);
     unsigned char encrypted_bytes[input_string_size];
-    if (!xor_repeating_key(
-            (const unsigned char* const)input_string,
-            input_string_size,
-            (const unsigned char* const)key,
-            strlen(key),
-            encrypted_bytes,
-            input_string_size
-        )) {
-        return false;
-    }
+    xor_repeating_key(
+        (const unsigned char* const)input_string,
+        input_string_size,
+        (const unsigned char* const)key,
+        strlen(key),
+        encrypted_bytes
+    );
 
     if (!bytes_to_hex(encrypted_bytes, input_string_size, out_buffer, out_buffer_size)) {
         return false;

@@ -22,9 +22,7 @@ bool s04(char* const out_buffer, const int out_buffer_size) {
 
         float score;
         unsigned char key_char = 0;
-        if (!break_single_byte_xor(byte_buffer, byte_buffer_size, 0, 1, &key_char, &score)) {
-            return false;
-        }
+        break_single_byte_xor(byte_buffer, byte_buffer_size, 0, 1, &key_char, &score);
 
         if (score > max_english_score) {
             max_english_score = score;
@@ -35,22 +33,15 @@ bool s04(char* const out_buffer, const int out_buffer_size) {
 
     const char* const best_input_hex = s04_string_array[best_string_index];
     const int byte_buffer_size = hex_to_bytes_size(strlen(best_input_hex));
+    if (byte_buffer_size + 1 > out_buffer_size) {
+        return false;
+    }
     unsigned char byte_buffer[byte_buffer_size];
     if (!hex_to_bytes(best_input_hex, byte_buffer, byte_buffer_size)) {
         return false;
     }
 
-    if (!xor_byte(
-            byte_buffer,
-            byte_buffer_size,
-            best_key_char,
-            (unsigned char*)out_buffer,
-            out_buffer_size,
-            0,
-            1
-        )) {
-        return false;
-    }
+    xor_byte(byte_buffer, byte_buffer_size, best_key_char, (unsigned char*)out_buffer, 0, 1);
     out_buffer[byte_buffer_size] = 0;
 
     return true;

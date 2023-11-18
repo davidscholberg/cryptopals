@@ -1,6 +1,7 @@
 target_sources(
     cryptopals
     PRIVATE
+    files.c
     oracles.c
     pkcs7_pad.c
     random.c

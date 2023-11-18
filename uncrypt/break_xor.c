@@ -1,9 +1,7 @@
-#include <stdbool.h>
-
 #include "analysis/english_score.h"
 #include "ciphers/xor.h"
 
-bool break_single_byte_xor(
+void break_single_byte_xor(
     const unsigned char* const input_buffer,
     const int input_buffer_size,
     const int start,
@@ -16,17 +14,7 @@ bool break_single_byte_xor(
     unsigned char result_buffer[input_buffer_size];
     for (int i = 0; i <= 255; i++) {
         unsigned char candidate_char = (unsigned char)i;
-        if (!xor_byte(
-                input_buffer,
-                input_buffer_size,
-                candidate_char,
-                result_buffer,
-                input_buffer_size,
-                start,
-                step
-            )) {
-            return false;
-        }
+        xor_byte(input_buffer, input_buffer_size, candidate_char, result_buffer, start, step);
 
         float current_english_score = english_score(result_buffer, input_buffer_size, start, step);
         if (current_english_score > max_english_score) {
@@ -39,5 +27,4 @@ bool break_single_byte_xor(
     if (score) {
         *score = max_english_score;
     }
-    return true;
 }

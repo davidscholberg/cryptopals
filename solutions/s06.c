@@ -13,7 +13,7 @@
 #define max_key_size_to_check 40
 
 // Challenge 6: Break the repeating key xor of the given input.
-bool s06(char* const out_buffer, __attribute__((unused)) const int out_buffer_size) {
+bool s06(char* const out_buffer, const int out_buffer_size) {
     int input_bytes_size = 0;
     if (!base64_to_bytes_size(s06_base64_string, &input_bytes_size)) {
         return false;
@@ -33,18 +33,19 @@ bool s06(char* const out_buffer, __attribute__((unused)) const int out_buffer_si
             best_guess_key_size = key_size;
         }
     }
+    if (best_guess_key_size + 1 > out_buffer_size) {
+        return false;
+    }
 
     for (int i = 0; i < best_guess_key_size; i++) {
-        if (!break_single_byte_xor(
-                input_bytes,
-                input_bytes_size,
-                i,
-                best_guess_key_size,
-                &(((unsigned char* const)out_buffer)[i]),
-                NULL
-            )) {
-            return false;
-        }
+        break_single_byte_xor(
+            input_bytes,
+            input_bytes_size,
+            i,
+            best_guess_key_size,
+            &(((unsigned char* const)out_buffer)[i]),
+            NULL
+        );
     }
     out_buffer[best_guess_key_size] = 0;
 
