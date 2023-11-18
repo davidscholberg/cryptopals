@@ -1,28 +1,37 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "ciphers/xor.h"
+#include "codecs/decode_lines.h"
 #include "codecs/hex.h"
-#include "resources/s04_string_array.h"
 #include "uncrypt/break_xor.h"
+#include "utility/files.h"
 
 // Challenge 4: Find the string in the input array that has been single-byte xored.
 bool s04(char* const out_buffer, const int out_buffer_size) {
+    int line_count = 0;
+    char** lines = file_to_lines("s04_hex_string_array.txt", &line_count);
+    if (!lines) {
+        return false;
+    }
+
+    int* buffer_sizes = 0;
+    unsigned char** buffers =
+        decode_lines(lines, line_count, hex_to_bytes, hex_to_bytes_size_wrapper, &buffer_sizes);
+    free(lines);
+    if (!buffers) {
+        return false;
+    }
+
     float max_english_score = 0;
     unsigned char best_key_char = 0;
     int best_string_index = 0;
-    for (int i = 0; i < s04_string_array_size; i++) {
-        const char* const input_hex = s04_string_array[i];
-        const int byte_buffer_size = hex_to_bytes_size(strlen(input_hex));
-        unsigned char byte_buffer[byte_buffer_size];
-        if (!hex_to_bytes(input_hex, byte_buffer, byte_buffer_size)) {
-            return false;
-        }
-
+    for (int i = 0; i < line_count; i++) {
         float score;
         unsigned char key_char = 0;
-        break_single_byte_xor(byte_buffer, byte_buffer_size, 0, 1, &key_char, &score);
+        break_single_byte_xor(buffers[i], buffer_sizes[i], 0, 1, &key_char, &score);
 
         if (score > max_english_score) {
             max_english_score = score;
@@ -31,18 +40,20 @@ bool s04(char* const out_buffer, const int out_buffer_size) {
         }
     }
 
-    const char* const best_input_hex = s04_string_array[best_string_index];
-    const int byte_buffer_size = hex_to_bytes_size(strlen(best_input_hex));
-    if (byte_buffer_size + 1 > out_buffer_size) {
-        return false;
-    }
-    unsigned char byte_buffer[byte_buffer_size];
-    if (!hex_to_bytes(best_input_hex, byte_buffer, byte_buffer_size)) {
+    if (buffer_sizes[best_string_index] + 1 > out_buffer_size) {
+        free(buffers);
         return false;
     }
 
-    xor_byte(byte_buffer, byte_buffer_size, best_key_char, (unsigned char*)out_buffer, 0, 1);
-    out_buffer[byte_buffer_size] = 0;
+    xor_byte(
+        buffers[best_string_index],
+        buffer_sizes[best_string_index],
+        best_key_char,
+        (unsigned char*)out_buffer,
+        0,
+        1
+    );
+    out_buffer[buffer_sizes[best_string_index]] = 0;
 
     return true;
 }

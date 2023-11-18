@@ -1,7 +1,6 @@
 target_sources(
     cryptopals
     PRIVATE
-    s04_string_array.c
     s06_base64_string.c
     s07_base64_string.c
     s08_string_array.c
@@ -12,6 +11,7 @@ target_sources(
 # data from text files (below).
 set(
     resources
+    s04_hex_string_array.txt
     s19_base64_string_array.txt
 )
 foreach(resource IN LISTS resources)

@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <string.h>
 
 #include "hex.h"
 
@@ -60,5 +61,10 @@ bool hex_to_bytes(
         }
     }
 
+    return true;
+}
+
+bool hex_to_bytes_size_wrapper(const char *const hex_string, int *const bytes_size) {
+    *bytes_size = hex_to_bytes_size(strlen(hex_string));
     return true;
 }

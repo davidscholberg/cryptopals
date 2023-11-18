@@ -23,3 +23,9 @@ bool hex_to_bytes(
     unsigned char *const byte_buffer,
     const int byte_buffer_size
 );
+
+// Tells you how big a byte buffer should be to hold the decoded data from the given hex string.
+// Returns true always. Note that this function only exists as a wrapper to the hex_to_bytes_size
+// macro that conforms to the decode_size_fn function pointer type. You should prefer to use the
+// macro wherever possible.
+bool hex_to_bytes_size_wrapper(const char *const hex_string, int *const bytes_size);
