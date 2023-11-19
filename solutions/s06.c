@@ -1,27 +1,36 @@
 #include <float.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "analysis/hamming_distance.h"
 #include "ciphers/xor.h"
 #include "codecs/base64.h"
-#include "resources/s06_base64_string.h"
 #include "uncrypt/break_xor.h"
+#include "utility/files.h"
 
 #define min_key_size_to_check 2
 #define max_key_size_to_check 40
 
 // Challenge 6: Break the repeating key xor of the given input.
 bool s06(char* const out_buffer, const int out_buffer_size) {
+    char* base64_string = file_to_string("s06_base64_string.txt");
+    if (!base64_string) {
+        return false;
+    }
+
     int input_bytes_size = 0;
-    if (!base64_to_bytes_size(s06_base64_string, &input_bytes_size)) {
+    if (!base64_to_bytes_size(base64_string, &input_bytes_size)) {
+        free(base64_string);
         return false;
     }
     unsigned char input_bytes[input_bytes_size];
-    if (!base64_to_bytes(s06_base64_string, input_bytes, input_bytes_size)) {
+    if (!base64_to_bytes(base64_string, input_bytes, input_bytes_size)) {
+        free(base64_string);
         return false;
     }
+    free(base64_string);
 
     int best_guess_key_size = 0;
     float lowest_hamming_distance = FLT_MAX;

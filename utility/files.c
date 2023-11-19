@@ -7,9 +7,8 @@
 
 #define default_path_size PATH_MAX
 
-// Returns number of lines in the buffer. The given file buffer must not have any empty lines except
-// for the last line, which must be empty.
-int buffer_line_count(const unsigned char* const buffer, const int buffer_size);
+// Returns number of newlines in the buffer.
+int buffer_newline_count(const unsigned char* const buffer, const int buffer_size);
 
 // Returns the size of the given file or a negative value indicating an error from either fseek or
 // ftell. Note that the stream position is reset back to the beginning.
@@ -25,7 +24,7 @@ int full_resource_path(char* const full_path, int full_path_size, const char* co
 
 static const char* const resources_relative_fmt = "resources/%s";
 
-int buffer_line_count(const unsigned char* const buffer, const int buffer_size) {
+int buffer_newline_count(const unsigned char* const buffer, const int buffer_size) {
     int count = 0;
 
     for (int i = 1; i < buffer_size; i++) {
@@ -96,7 +95,7 @@ char** file_to_lines(const char* const filename, int* const line_count_ptr) {
     fclose(file);
 
     // Count lines and allocate memory for lines buffer.
-    int line_count = buffer_line_count((unsigned char* const)file_buffer, file_buffer_size);
+    int line_count = buffer_newline_count((unsigned char* const)file_buffer, file_buffer_size);
     int line_ptrs_size = line_count * sizeof(char*);
     unsigned char* line_ptrs_and_buffer = malloc(line_ptrs_size + file_buffer_size);
     if (!line_ptrs_and_buffer) {
@@ -120,6 +119,55 @@ char** file_to_lines(const char* const filename, int* const line_count_ptr) {
 
     *line_count_ptr = line_count;
     return (char**)line_ptrs_and_buffer;
+}
+
+char* file_to_string(const char* const filename) {
+    // Get full path to file.
+    char full_path[default_path_size];
+    int ret = full_resource_path(full_path, default_path_size, filename);
+    if (ret <= 0 || ret >= default_path_size) {
+        return NULL;
+    }
+
+    // Get file size.
+    FILE* file = fopen(full_path, "r");
+    if (!file) {
+        return NULL;
+    }
+    long file_buffer_size = file_size(file);
+    if (file_buffer_size <= 0) {
+        fclose(file);
+        return NULL;
+    }
+
+    // Read file into buffer.
+    char file_buffer[file_buffer_size];
+    if (file_to_buffer(file, (unsigned char* const)file_buffer, file_buffer_size) !=
+        file_buffer_size) {
+        fclose(file);
+        return NULL;
+    }
+    fclose(file);
+
+    // Get line count and allocate memory for string.
+    int newline_count = buffer_newline_count((unsigned char* const)file_buffer, file_buffer_size);
+    int string_buffer_size = file_buffer_size - newline_count + 1;
+    char* file_contents_string = malloc(string_buffer_size);
+    if (!file_contents_string) {
+        return NULL;
+    }
+
+    // Copy file buffer to string, removing newlines.
+    int string_i = 0;
+    for (int file_buffer_i = 0; file_buffer_i < file_buffer_size; file_buffer_i++) {
+        if (file_buffer[file_buffer_i] != '\n') {
+            file_contents_string[string_i] = file_buffer[file_buffer_i];
+            string_i++;
+        }
+    }
+
+    file_contents_string[string_buffer_size - 1] = 0;
+    return file_contents_string;
 }
 
 int full_resource_path(char* const full_path, int full_path_size, const char* const filename) {
