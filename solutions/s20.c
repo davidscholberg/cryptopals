@@ -11,11 +11,13 @@
 #include "uncrypt/break_ctr.h"
 #include "utility/files.h"
 
-// Challenge 19: Take the given list of base64 strings, decode them, encrypt them with AES CTR using
-// a fixed nonce and key, and then decrypt the strings using only the ciphertexts.
-bool s19(char* const out_buffer, const int out_buffer_size) {
+// Challenge 20: Take the given list of base64 strings, decode them, encrypt them with AES CTR using
+// a fixed nonce and key, and then decrypt the strings using only the ciphertexts. Note that this
+// solution is identical to the previous one because I inadvertently did it (nearly) the right way
+// for challenge 19 instead of the dumb way that challenge 19 apparently wanted.
+bool s20(char* const out_buffer, const int out_buffer_size) {
     int line_count = 0;
-    char** lines = file_to_lines("s19_base64_string_array.txt", &line_count);
+    char** lines = file_to_lines("s20_base64_string_array.txt", &line_count);
     if (!lines) {
         return false;
     }
