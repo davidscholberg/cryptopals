@@ -22,8 +22,6 @@ int file_to_buffer(FILE* file, unsigned char* const buffer, const int buffer_siz
 // return value is equivalent to the return value of snprintf.
 int full_resource_path(char* const full_path, int full_path_size, const char* const filename);
 
-static const char* const resources_relative_fmt = "resources/%s";
-
 int buffer_newline_count(const unsigned char* const buffer, const int buffer_size) {
     int count = 0;
 
@@ -171,22 +169,28 @@ char* file_to_string(const char* const filename) {
 }
 
 int full_resource_path(char* const full_path, int full_path_size, const char* const filename) {
-    char resources_full_fmt[default_path_size];
-    int ret = readlink("/proc/self/exe", resources_full_fmt, default_path_size);
-    if (ret <= 0 || ret >= default_path_size) {
-        return ret;
-    }
+    static char resources_full_fmt[default_path_size];
+    static const char* const resources_relative_fmt = "resources/%s";
+    static bool resources_fmt_initialized = false;
 
-    char* fmt_overwrite = strrchr(resources_full_fmt, '/');
-    if (!fmt_overwrite) {
-        return 0;
-    }
-    *(fmt_overwrite + 1) = 0;
+    if (!resources_fmt_initialized) {
+        int ret = readlink("/proc/self/exe", resources_full_fmt, default_path_size);
+        if (ret <= 0 || ret >= default_path_size) {
+            return ret;
+        }
 
-    if (strlen(resources_full_fmt) + strlen(resources_relative_fmt) + 1 > default_path_size) {
-        return 0;
-    }
-    strcat(resources_full_fmt, resources_relative_fmt);
+        char* fmt_overwrite = strrchr(resources_full_fmt, '/');
+        if (!fmt_overwrite) {
+            return 0;
+        }
+        *(fmt_overwrite + 1) = 0;
 
+        if (strlen(resources_full_fmt) + strlen(resources_relative_fmt) + 1 > default_path_size) {
+            return 0;
+        }
+        strcat(resources_full_fmt, resources_relative_fmt);
+
+        resources_fmt_initialized = true;
+    }
     return snprintf(full_path, full_path_size, resources_full_fmt, filename);
 }

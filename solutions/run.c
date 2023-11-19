@@ -17,7 +17,7 @@ static const solution solutions[] = {
 };
 
 // Number of items in the solutions array.
-static const int solutions_size = sizeof(solutions) / sizeof(solution);
+const int solutions_size = sizeof(solutions) / sizeof(solution);
 
 solution_status run_solution(const int n, char* const out_buffer, const int out_buffer_size) {
     if (n >= solutions_size) {

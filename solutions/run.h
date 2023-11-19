@@ -13,3 +13,5 @@ typedef enum solution_status {
 // than the corresponding challenge number. The passed-in string buffer will have the computed
 // answer written to it.
 solution_status run_solution(const int n, char* const out_buffer, const int out_buffer_size);
+
+extern const int solutions_size;
