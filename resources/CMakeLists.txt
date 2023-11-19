@@ -1,17 +1,10 @@
-target_sources(
-    cryptopals
-    PRIVATE
-    s10_base64_string.c
-)
-
-# We will gradually transition from hard-coding resource data in c files (above) to reading resource
-# data from text files (below).
 set(
     resources
     s04_hex_string_array.txt
     s06_base64_string.txt
     s07_base64_string.txt
     s08_hex_string_array.txt
+    s10_base64_string.txt
     s19_base64_string_array.txt
 )
 foreach(resource IN LISTS resources)
