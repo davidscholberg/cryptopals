@@ -1,7 +1,6 @@
 target_sources(
     cryptopals
     PRIVATE
-    s07_base64_string.c
     s08_string_array.c
     s10_base64_string.c
 )
@@ -11,6 +10,7 @@ target_sources(
 set(
     resources
     s04_hex_string_array.txt
+    s07_base64_string.txt
     s06_base64_string.txt
     s19_base64_string_array.txt
 )
