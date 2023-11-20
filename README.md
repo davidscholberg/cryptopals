@@ -25,5 +25,11 @@ Building the project will depend on how your development environment handles CMa
 You can run the solution for a particular challenge by passing the challenge number to the compiled binary:
 
 ```bash
-./build/cryptopals 1
+./build/cryptopals 20
+```
+
+You can also have all of the implemented challenge solutions run at once by passing the argument `all`:
+
+```bash
+./build/cryptopals all
 ```
