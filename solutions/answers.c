@@ -28,6 +28,7 @@ static const char* const answers[] = {
     "Yo, VIP Let's kick it Ice, Ice, baby Ice, Ice, baby ",
     "I have met them at c",
     "I'm rated \"R\"...this is a warning, ya better void / P",
+    "39, 3, 20, 78, 62, 51, 78, 64, 99, 35, 84, 79, 25, 32, 19, 5, 68, 80, 32, 37",
 };
 
 // Number of items in the answers array.

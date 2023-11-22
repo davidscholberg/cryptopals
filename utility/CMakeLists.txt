@@ -2,6 +2,7 @@ target_sources(
     cryptopals
     PRIVATE
     files.c
+    mersenne_twister.c
     oracles.c
     pkcs7_pad.c
     random.c
