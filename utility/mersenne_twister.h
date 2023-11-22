@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdint.h>
 
 // Get the next value of the MT19937 Mersenne Twister PRNG. If the PRNG was not previously seeded, a
