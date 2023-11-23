@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "analysis/oracle_info.h"
-#include "utility/oracles.h"
+#include "oracles/aes_oracles.h"
 #include "utility/pkcs7_pad.h"
 
 // Challenge 13: Create a profile with the admin role using ECB cut and paste.
@@ -12,7 +12,7 @@ bool s13(char* const out_buffer, const int out_buffer_size) {
     int added_data_size = 0;
     bool is_using_ecb = false;
     int prefix_size = 0;
-    if (!oracle_info(
+    if (!aes_oracle_info(
             encrypted_profile_oracle,
             encrypted_profile_oracle_size,
             &block_size,

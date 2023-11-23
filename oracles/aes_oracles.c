@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "aes_oracles.h"
 #include "ciphers/aes.h"
-#include "oracles.h"
-#include "pkcs7_pad.h"
+#include "utility/pkcs7_pad.h"
 
 static const char* const aes_ecb_or_cbc_oracle_prefix =
     "Rollin' in my 5.0 With my rag-top down so my hair can blow";

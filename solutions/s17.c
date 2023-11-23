@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "oracles/aes_oracles.h"
 #include "uncrypt/break_cbc.h"
-#include "utility/oracles.h"
 #include "utility/pkcs7_pad.h"
 
 // Challenge 17: Decrypt the CBC-encrypted text via padding oracle attack.

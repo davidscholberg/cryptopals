@@ -3,7 +3,6 @@ target_sources(
     PRIVATE
     files.c
     mersenne_twister.c
-    oracles.c
     pkcs7_pad.c
     random.c
     repeat_buffer.c

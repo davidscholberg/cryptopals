@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "analysis/oracle_info.h"
-#include "utility/oracles.h"
+#include "oracles/aes_oracles.h"
 
 #define prefix_size 32
 
@@ -19,7 +19,15 @@ bool s16(char* const out_buffer, const int out_buffer_size) {
     }
 
     int block_size = 0;
-    if (!oracle_info(aes_cbc_oracle, aes_cbc_oracle_size, &block_size, NULL, NULL, NULL, NULL)) {
+    if (!aes_oracle_info(
+            aes_cbc_oracle,
+            aes_cbc_oracle_size,
+            &block_size,
+            NULL,
+            NULL,
+            NULL,
+            NULL
+        )) {
         return false;
     }
     const int colon_offset = strchr(input_string, ':') - input_string + prefix_size - block_size;

@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "analysis/oracle_info.h"
-#include "utility/oracles.h"
+#include "oracles/aes_oracles.h"
 
 #define passes 10
 
@@ -14,7 +14,7 @@ bool s11(char* const out_buffer, const int out_buffer_size) {
     bool is_using_ecb = false;
     bool passed = true;
     for (int i = 0; i < passes; i++) {
-        if (!oracle_info(
+        if (!aes_oracle_info(
                 aes_ecb_or_cbc_oracle,
                 aes_ecb_or_cbc_oracle_size,
                 &block_size,

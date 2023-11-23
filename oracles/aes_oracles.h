@@ -3,13 +3,13 @@
 #include <stdbool.h>
 
 // Function type for functions that take an input buffer, optionally prepend or append some unknown
-// text to it, pkcs7 pad this data to an unknown block size, and then encrypt the whole thing with
-// an unknown secret key.
-typedef bool (*oracle_fn)(const unsigned char* const, const int, unsigned char* const);
+// text to it, pkcs7 pad this data to an unknown block size, and then encrypt the whole thing using
+// aes with an unknown secret key.
+typedef bool (*aes_oracle_fn)(const unsigned char* const, const int, unsigned char* const);
 
-// Function type for functions that return the size needed to hold the output of the associated
+// Function type for functions that return the size needed to hold the output of the associated aes
 // oracle function given the input size.
-typedef int (*oracle_size_fn)(const int);
+typedef int (*aes_oracle_size_fn)(const int);
 
 // Take the given plaintext, prepend and append unknown strings to it, pkcs7 pad the result, and
 // encrypt the whole thing with an unknown key using either ECB mode or CBC mode (chosen based on
