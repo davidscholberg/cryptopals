@@ -29,6 +29,7 @@ static const char* const answers[] = {
     "I have met them at c",
     "I'm rated \"R\"...this is a warning, ya better void / P",
     "39, 3, 20, 78, 62, 51, 78, 64, 99, 35, 84, 79, 25, 32, 19, 5, 68, 80, 32, 37",
+    "cracked seed value: 212",
 };
 
 // Number of items in the answers array.
