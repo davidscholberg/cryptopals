@@ -4,5 +4,6 @@ target_sources(
     break_cbc.c
     break_ctr.c
     break_ecb.c
+    break_mersenne_twister.c
     break_xor.c
 )

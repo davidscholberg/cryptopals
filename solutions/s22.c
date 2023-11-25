@@ -14,10 +14,11 @@ bool s22(char* const out_buffer, const int out_buffer_size) {
     int elapsed_time = 0;
     const unsigned int first_prng_value = mersenne_twister_time_delay_oracle(&elapsed_time);
 
+    mersenne_twister mt_state;
     int cracked_seed_value = 0;
     for (int i = 0; i < elapsed_time; i++) {
-        mersenne_twister_seed(i);
-        if (mersenne_twister_next() == first_prng_value) {
+        mersenne_twister_seed(&mt_state, i);
+        if (mersenne_twister_next(&mt_state) == first_prng_value) {
             cracked_seed_value = i;
         }
     }
