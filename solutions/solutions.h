@@ -26,3 +26,4 @@ solution_declaration(20);
 solution_declaration(21);
 solution_declaration(22);
 solution_declaration(23);
+solution_declaration(24);
