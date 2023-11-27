@@ -29,7 +29,7 @@ bool s24(char* const out_buffer, const int out_buffer_size) {
     const unsigned short seed =
         crack_mt_stream_seed(ciphertext, ciphertext_size, 'A', plaintext_size);
 
-    int ret = snprintf(out_buffer, out_buffer_size, "%hu", seed);
+    int ret = snprintf(out_buffer, out_buffer_size, "cracked seed value: %hu", seed);
     if (ret <= 0 || ret >= out_buffer_size) {
         return false;
     }
