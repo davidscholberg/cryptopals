@@ -11,7 +11,8 @@
 #define rand_n_max_digits 2
 #define rand_n_seed 824824
 
-// Challenge 23:
+// Challenge 23: Reverse engineer the state of a Mersenne Twister PRNG given only its output, such
+// that subsequent values of the reverse engineered PRNG are identical to the original PRNG.
 bool s23(char* const out_buffer, const int out_buffer_size) {
     const char* const rand_n_separator = ", ";
     const int rand_n_separator_len = strlen(rand_n_separator);
