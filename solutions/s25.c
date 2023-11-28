@@ -6,7 +6,7 @@
 #include "ciphers/aes.h"
 #include "ciphers/xor.h"
 #include "codecs/base64.h"
-#include "oracles/aes_oracles.h"
+#include "oracles/ctr_oracles.h"
 #include "utility/files.h"
 
 #define known_plaintext_byte 0

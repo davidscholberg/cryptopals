@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "oracles/aes_oracles.h"
+#include "oracles/ecb_oracles.h"
 #include "uncrypt/break_ecb.h"
 
 // Challenge 14: Decrypt the string that's being appended to the input of the encryption oracle.

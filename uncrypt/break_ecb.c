@@ -2,11 +2,10 @@
 #include <string.h>
 
 #include "analysis/oracle_info.h"
-#include "oracles/aes_oracles.h"
 
 int break_ecb(
-    aes_oracle_fn oracle,
-    aes_oracle_size_fn oracle_size,
+    block_cipher_oracle_fn oracle,
+    block_cipher_oracle_size_fn oracle_size,
     unsigned char* const output_buffer,
     const int output_buffer_size
 ) {
@@ -15,7 +14,7 @@ int break_ecb(
     bool is_using_ecb = false;
     int prefix_size = 0;
     int suffix_size = 0;
-    if (!aes_oracle_info(
+    if (!block_cipher_oracle_info(
             oracle,
             oracle_size,
             &block_size,

@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "analysis/oracle_info.h"
-#include "oracles/aes_oracles.h"
+#include "oracles/cbc_oracles.h"
 
 #define prefix_size 32
 
@@ -19,7 +19,7 @@ bool s16(char* const out_buffer, const int out_buffer_size) {
     }
 
     int block_size = 0;
-    if (!aes_oracle_info(
+    if (!block_cipher_oracle_info(
             aes_cbc_oracle,
             aes_cbc_oracle_size,
             &block_size,

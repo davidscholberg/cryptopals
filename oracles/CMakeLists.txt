@@ -1,6 +1,8 @@
 target_sources(
     cryptopals
     PRIVATE
-    aes_oracles.c
+    cbc_oracles.c
+    ctr_oracles.c
+    ecb_oracles.c
     mersenne_twister_oracles.c
 )

@@ -2,15 +2,14 @@
 #include <string.h>
 
 #include "oracle_info.h"
-#include "oracles/aes_oracles.h"
 #include "repeating_blocks.h"
 
 #define key_size_min 8
 #define key_size_max 32
 
-bool aes_oracle_info(
-    aes_oracle_fn oracle,
-    aes_oracle_size_fn oracle_size,
+bool block_cipher_oracle_info(
+    block_cipher_oracle_fn oracle,
+    block_cipher_oracle_size_fn oracle_size,
     int* const block_size,
     int* const added_data_size,
     bool* const is_using_ecb,
