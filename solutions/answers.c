@@ -32,6 +32,7 @@ static const char* const answers[] = {
     "cracked seed value: 212",
     "62, 85, 67, 44, 54, 15, 59, 45, 26, 85, 97, 88, 75, 19, 75, 0, 40, 76, 42, 39",
     "cracked seed value: 5649",
+    "I'm back and I'm ringin' the bell ",
 };
 
 // Number of items in the answers array.

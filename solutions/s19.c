@@ -31,7 +31,7 @@ bool s19(char* const out_buffer, const int out_buffer_size) {
     const char* const key = "ice ice baby ice";
     const unsigned char iv[aes_block_size] = {0};
     for (int i = 0; i < line_count; i++) {
-        aes_ctr_encrypt(buffers[i], buffer_sizes[i], NULL, iv, (const unsigned char* const)key);
+        aes_ctr_encrypt(buffers[i], buffer_sizes[i], NULL, iv, (const unsigned char* const)key, 0);
     }
 
     int max_common_buffer_size = INT_MAX;

@@ -7,6 +7,7 @@ set(
     s10_base64_string.txt
     s19_base64_string_array.txt
     s20_base64_string_array.txt
+    s25_base64_string.txt
 )
 foreach(resource IN LISTS resources)
     add_custom_command(

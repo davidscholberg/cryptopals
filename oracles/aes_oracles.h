@@ -112,6 +112,25 @@ bool encrypted_profile_decrypt(
     unsigned char* const plaintext
 );
 
+// Take the given plaintext and encrypt it via AES CTR with an unknown key and IV. If ciphertext is
+// null, encrypt in place.
+void aes_ctr_unknown_key_oracle(
+    unsigned char* const plaintext,
+    const int plaintext_size,
+    unsigned char* ciphertext
+);
+
+// Take the ciphertext and replace the section of it starting with offset and being of plaintext
+// size with the given plaintext, encrypting the plaintext with the same unknown key as if it was a
+// part of the original plaintext. The given ciphertext must have enough space allocated to
+// accomodate plaintext size plus the offset.
+void aes_ctr_unknown_key_edit_oracle(
+    unsigned char* const ciphertext,
+    unsigned char* const plaintext,
+    const int plaintext_size,
+    const int offset
+);
+
 // Takes the given email address, formats it into a profile string, and encrypts the profile string
 // under a consistent secret key using AES ECB with a block size of 16. The given ciphertext buffer
 // must already have the needed amount of space, which can be determined via the

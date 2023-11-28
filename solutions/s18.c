@@ -27,7 +27,8 @@ bool s18(char* const out_buffer, const int out_buffer_size) {
         input_bytes_size,
         NULL,
         iv,
-        (const unsigned char* const)key
+        (const unsigned char* const)key,
+        0
     );
     out_buffer[input_bytes_size] = 0;
 

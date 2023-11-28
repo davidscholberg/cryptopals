@@ -85,11 +85,12 @@ void aes_ctr_decrypt(
     const int ciphertext_size,
     unsigned char* plaintext,
     const unsigned char* const iv,
-    const unsigned char* const key
+    const unsigned char* const key,
+    const int offset
 ) {
     // CTR mode performs identical steps in encryption and decryption, so we merely pass along the
     // args to the encrypt function.
-    aes_ctr_encrypt(ciphertext, ciphertext_size, plaintext, iv, key);
+    aes_ctr_encrypt(ciphertext, ciphertext_size, plaintext, iv, key, offset);
 }
 
 void aes_ctr_encrypt(
@@ -97,7 +98,8 @@ void aes_ctr_encrypt(
     const int plaintext_size,
     unsigned char* ciphertext,
     const unsigned char* const iv,
-    const unsigned char* const key
+    const unsigned char* const key,
+    const int offset
 ) {
     if (!ciphertext) {
         ciphertext = plaintext;
@@ -108,21 +110,36 @@ void aes_ctr_encrypt(
     int64_t* counter = (int64_t*)(counter_block + (aes_block_size / 2));
     unsigned char keystream[aes_block_size];
 
+    // Burn the counter to reach the block where the given offset is.
+    // This is the block number that the offset resides in.
+    const int offset_block = (offset / aes_block_size);
+    (*counter) += offset_block;
+
+    // This is the starting index of the offset block.
+    const int offset_block_start = offset_block * aes_block_size;
+    // This is the offset within the offset block.
+    int block_offset = offset % aes_block_size;
+
     struct AES_ctx aes_ecb_context;
     AES_init_ctx(&aes_ecb_context, key);
 
-    for (int i = 0; i < plaintext_size; i += aes_block_size) {
+    for (int i = offset_block_start; i < plaintext_size; i += aes_block_size) {
         memcpy(keystream, counter_block, aes_block_size);
         AES_ECB_encrypt(&aes_ecb_context, keystream);
 
+        const int buffer_offset = i + block_offset;
+
         xor_bytes(
-            keystream,
-            plaintext + i,
-            ciphertext + i,
-            min(aes_block_size, plaintext_size - i)
+            keystream + block_offset,
+            plaintext + buffer_offset,
+            ciphertext + buffer_offset,
+            min(aes_block_size, plaintext_size - buffer_offset)
         );
 
         (*counter)++;
+
+        // block_offset should only ever be non-zero on the first iteration
+        block_offset = 0;
     }
 }
 
