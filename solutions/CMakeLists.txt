@@ -28,4 +28,5 @@ target_sources(
     s23.c
     s24.c
     s25.c
+    s26.c
 )

@@ -4,5 +4,6 @@ target_sources(
     cbc_oracles.c
     ctr_oracles.c
     ecb_oracles.c
+    user_data_oracle.c
     mersenne_twister_oracles.c
 )

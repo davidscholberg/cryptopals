@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "analysis/oracle_info.h"
-#include "oracles/cbc_oracles.h"
+#include "oracles/user_data_oracle.h"
 
 #define prefix_size 32
 
@@ -12,16 +12,22 @@
 bool s16(char* const out_buffer, const int out_buffer_size) {
     const char* const input_string = "a:admin<true";
     const int input_string_size = strlen(input_string);
-    const int ciphertext_size = aes_cbc_oracle_size(input_string_size);
+
+    user_data_oracle_set_cbc_mode();
+    const int ciphertext_size = user_data_oracle_size(input_string_size);
     unsigned char ciphertext[ciphertext_size];
-    if (!aes_cbc_oracle((const unsigned char* const)input_string, input_string_size, ciphertext)) {
+    if (!user_data_oracle(
+            (const unsigned char* const)input_string,
+            input_string_size,
+            ciphertext
+        )) {
         return false;
     }
 
     int block_size = 0;
     if (!block_cipher_oracle_info(
-            aes_cbc_oracle,
-            aes_cbc_oracle_size,
+            user_data_oracle,
+            user_data_oracle_size,
             &block_size,
             NULL,
             NULL,
@@ -36,7 +42,7 @@ bool s16(char* const out_buffer, const int out_buffer_size) {
     ciphertext[lt_offset] ^= 0x1;
 
     unsigned char hax0red_plaintext[ciphertext_size];
-    if (!aes_cbc_oracle_decrypt(ciphertext, ciphertext_size, hax0red_plaintext)) {
+    if (!user_data_oracle_decrypt(ciphertext, ciphertext_size, hax0red_plaintext)) {
         return false;
     }
 

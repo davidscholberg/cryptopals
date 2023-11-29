@@ -5,56 +5,6 @@
 #include "ciphers/aes.h"
 #include "utility/pkcs7_pad.h"
 
-static const char* const aes_cbc_oracle_iv = "fire fire adult.";
-static const char* const aes_cbc_oracle_key = "cooking mc bacon";
-static const char* const aes_cbc_oracle_prefix = "comment1=cooking%20MCs;userdata=";
-static const char* const aes_cbc_oracle_suffix = ";comment2=%20like%20a%20pound%20of%20bacon";
-
-bool aes_cbc_oracle(
-    const unsigned char* const plaintext,
-    const int plaintext_size,
-    unsigned char* const ciphertext
-) {
-    const int prefix_size = strlen(aes_cbc_oracle_prefix);
-    memcpy(ciphertext, aes_cbc_oracle_prefix, prefix_size);
-    memcpy(ciphertext + prefix_size, plaintext, plaintext_size);
-    const int suffix_size = strlen(aes_cbc_oracle_suffix);
-    memcpy(ciphertext + prefix_size + plaintext_size, aes_cbc_oracle_suffix, suffix_size);
-
-    const int total_data_size = prefix_size + plaintext_size + suffix_size;
-    pkcs7_pad(ciphertext, NULL, total_data_size, aes_block_size);
-    const int padded_data_size =
-        total_data_size + pkcs7_padding_needed(total_data_size, aes_block_size);
-
-    return aes_cbc_encrypt(
-        ciphertext,
-        padded_data_size,
-        NULL,
-        (const unsigned char* const)aes_cbc_oracle_iv,
-        (const unsigned char* const)aes_cbc_oracle_key
-    );
-}
-
-bool aes_cbc_oracle_decrypt(
-    unsigned char* const ciphertext,
-    const int ciphertext_size,
-    unsigned char* const plaintext
-) {
-    return aes_cbc_decrypt(
-        ciphertext,
-        ciphertext_size,
-        plaintext,
-        (const unsigned char* const)aes_cbc_oracle_iv,
-        (const unsigned char* const)aes_cbc_oracle_key
-    );
-}
-
-int aes_cbc_oracle_size(const int plaintext_size) {
-    const int total_data_size =
-        strlen(aes_cbc_oracle_prefix) + plaintext_size + strlen(aes_cbc_oracle_suffix);
-    return total_data_size + pkcs7_padding_needed(total_data_size, aes_block_size);
-}
-
 static const char* const aes_cbc_unknown_plaintext_oracle_plaintext =
     "With the bass kicked in and the Vega's are pumpin'";
 static const char* const aes_cbc_unknown_plaintext_oracle_key = "cymbal crazed af";
