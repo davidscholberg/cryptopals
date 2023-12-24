@@ -20,5 +20,5 @@ int concat_lines_size(const char* const multiline_str) {
     for (int i = 0; i <= total_str_size; i++) {
         if (multiline_str[i] == '\n') line_count++;
     }
-    return total_str_size - line_count;
+    return total_str_size - line_count + 1;
 }

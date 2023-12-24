@@ -5,5 +5,6 @@
 // concat_lines_size function.
 void concat_lines(const char* const multiline_str, char* const one_line_str);
 
-// Returns the size of the given string if all newlines were removed.
+// Returns the size required to hold the given string if all newlines were removed. The returned
+// size includes the trailing null byte.
 int concat_lines_size(const char* const multiline_str);
