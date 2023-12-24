@@ -11,6 +11,7 @@ void concat_lines(const char* const multiline_str, char* const one_line_str) {
             dest_i++;
         }
     }
+    one_line_str[dest_i] = 0;
 }
 
 int concat_lines_size(const char* const multiline_str) {
