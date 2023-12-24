@@ -7,18 +7,22 @@
 #include "analysis/hamming_distance.h"
 #include "ciphers/xor.h"
 #include "codecs/base64.h"
+#include "resources/resources.h"
 #include "uncrypt/break_xor.h"
-#include "utility/files.h"
+#include "utility/string_utils.h"
 
 #define min_key_size_to_check 2
 #define max_key_size_to_check 40
 
 // Challenge 6: Break the repeating key xor of the given input.
 bool s06(char* const out_buffer, const int out_buffer_size) {
-    char* base64_string = file_to_string("s06_base64_string.txt");
+    const char* const base64_string_with_newlines = (const char* const)s06_base64_string_txt;
+    const int base64_string_size = concat_lines_size(base64_string_with_newlines);
+    char* const base64_string = malloc(base64_string_size);
     if (!base64_string) {
         return false;
     }
+    concat_lines(base64_string_with_newlines, base64_string);
 
     int input_bytes_size = 0;
     if (!base64_to_bytes_size(base64_string, &input_bytes_size)) {

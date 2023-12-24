@@ -6,4 +6,6 @@ target_sources(
     pkcs7_pad.c
     random.c
     repeat_buffer.c
+    string_utils.c
+    string_utils.h
 )
