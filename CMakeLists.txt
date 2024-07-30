@@ -6,10 +6,7 @@ project(
     LANGUAGES C
 )
 
-add_executable(
-    cryptopals
-    main.c
-)
+add_executable(cryptopals)
 
 # NOTE: target_compile_features sometimes doesn't set the standard properly, but the below works fine.
 set_target_properties(
@@ -22,12 +19,6 @@ set_target_properties(
     EXPORT_COMPILE_COMMANDS ON
 )
 
-target_include_directories(
-    cryptopals
-    PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_compile_options(
     cryptopals
     PUBLIC
@@ -37,12 +28,4 @@ target_compile_options(
     -Wpedantic
 )
 
-add_subdirectory(analysis)
-add_subdirectory(ciphers)
-add_subdirectory(codecs)
-add_subdirectory(external)
-add_subdirectory(oracles)
-add_subdirectory(resources)
-add_subdirectory(solutions)
-add_subdirectory(uncrypt)
-add_subdirectory(utility)
+add_subdirectory(src)

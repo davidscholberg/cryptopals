@@ -47,15 +47,16 @@ target_sources(
 )
 
 # old way of handling resource files
+set(resources_dest_path "${CMAKE_BINARY_DIR}/resources")
 foreach(resource IN LISTS resource_filenames)
     add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${resource}
+        OUTPUT ${resources_dest_path}/${resource}
         COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_CURRENT_SOURCE_DIR}/${resource}
-            ${CMAKE_CURRENT_BINARY_DIR}/${resource}
+            ${resources_dest_path}/${resource}
         DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${resource}
     )
 endforeach()
-list(TRANSFORM resource_filenames PREPEND ${CMAKE_CURRENT_BINARY_DIR}/)
+list(TRANSFORM resource_filenames PREPEND ${resources_dest_path}/)
 add_custom_target(copy_resources ALL DEPENDS ${resource_filenames})
 add_dependencies(cryptopals copy_resources)
