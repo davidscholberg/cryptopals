@@ -2,7 +2,11 @@ target_sources(
     cryptopals
     PRIVATE
     english_score.c
+    english_score.h
     hamming_distance.c
+    hamming_distance.h
     oracle_info.c
+    oracle_info.h
     repeating_blocks.c
+    repeating_blocks.h
 )

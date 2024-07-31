@@ -2,6 +2,9 @@ target_sources(
     cryptopals
     PRIVATE
     aes.c
+    aes.h
     mt_stream.c
+    mt_stream.h
     xor.c
+    xor.h
 )

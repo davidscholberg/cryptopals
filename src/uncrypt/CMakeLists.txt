@@ -2,8 +2,13 @@ target_sources(
     cryptopals
     PRIVATE
     break_cbc.c
+    break_cbc.h
     break_ctr.c
+    break_ctr.h
     break_ecb.c
+    break_ecb.h
     break_mersenne_twister.c
+    break_mersenne_twister.h
     break_xor.c
+    break_xor.h
 )

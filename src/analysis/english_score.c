@@ -1,5 +1,7 @@
 #include <stdbool.h>
 
+#include "english_score.h"
+
 #define is_lowercase_letter(character) (character >= 'a' && character <= 'z')
 #define is_uppercase_letter(character) (character >= 'A' && character <= 'Z')
 

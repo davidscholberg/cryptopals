@@ -50,10 +50,12 @@ bool s06(char* const out_buffer, const int out_buffer_size) {
         return false;
     }
 
+    unsigned char result_bytes[input_bytes_size];
     for (int i = 0; i < best_guess_key_size; i++) {
         break_single_byte_xor(
             input_bytes,
             input_bytes_size,
+            result_bytes,
             i,
             best_guess_key_size,
             &(((unsigned char* const)out_buffer)[i]),

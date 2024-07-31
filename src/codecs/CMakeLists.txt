@@ -2,6 +2,9 @@ target_sources(
     cryptopals
     PRIVATE
     base64.c
+    base64.h
     decode_lines.c
+    decode_lines.h
     hex.c
+    hex.h
 )

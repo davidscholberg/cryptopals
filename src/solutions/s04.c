@@ -31,7 +31,8 @@ bool s04(char* const out_buffer, const int out_buffer_size) {
     for (int i = 0; i < line_count; i++) {
         float score;
         unsigned char key_char = 0;
-        break_single_byte_xor(buffers[i], buffer_sizes[i], 0, 1, &key_char, &score);
+        unsigned char result_buffer[buffer_sizes[i]];
+        break_single_byte_xor(buffers[i], buffer_sizes[i], result_buffer, 0, 1, &key_char, &score);
 
         if (score > max_english_score) {
             max_english_score = score;

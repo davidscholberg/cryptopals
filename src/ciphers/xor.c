@@ -1,3 +1,5 @@
+#include "xor.h"
+
 void xor_byte(
     const unsigned char* const input_buffer,
     const int input_buffer_size,
