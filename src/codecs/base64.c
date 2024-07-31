@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "base64.h"
+#include "log.h"
 
 #define base64_padding_character '='
 
@@ -32,6 +33,7 @@ static bool base64_char_to_byte_value(const char base64_char, unsigned char *con
         *byte_value = 63;
         return true;
     }
+    log_error("invalid base64 character: decimal value: %hhd", base64_char);
     return false;
 }
 
@@ -42,8 +44,11 @@ bool base64_to_bytes(
 ) {
     const int base64_string_size = strlen(base64_string);
     int byte_buffer_needed_size = 0;
-    if (!base64_to_bytes_size(base64_string, &byte_buffer_needed_size) ||
-        byte_buffer_size < byte_buffer_needed_size) {
+    if (!base64_to_bytes_size(base64_string, &byte_buffer_needed_size)) {
+        return false;
+    }
+    if (byte_buffer_size < byte_buffer_needed_size) {
+        log_error("byte buffer too small");
         return false;
     }
 
@@ -87,6 +92,7 @@ bool base64_to_bytes(
 bool base64_to_bytes_size(const char *const base64_string, int *const bytes_size) {
     const int base64_string_size = strlen(base64_string);
     if (!is_valid_base64_size(base64_string_size)) {
+        log_error("received invalid size for base64 string: %d", base64_string_size);
         return false;
     }
 
@@ -107,7 +113,8 @@ bool bytes_to_base64(
     char *const base64_buffer,
     const int base64_buffer_size
 ) {
-    if (bytes_to_base64_size(byte_buffer_size) > base64_buffer_size) {
+    if (base64_buffer_size < bytes_to_base64_size(byte_buffer_size)) {
+        log_error("base64 buffer too small");
         return false;
     }
 

@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "hex.h"
+#include "log.h"
 
 static const char *const hex_digits = "0123456789abcdef";
 
@@ -11,7 +12,8 @@ bool bytes_to_hex(
     char *const hex_buffer,
     const int hex_buffer_size
 ) {
-    if (bytes_to_hex_size(byte_buffer_size) > hex_buffer_size) {
+    if (hex_buffer_size < bytes_to_hex_size(byte_buffer_size)) {
+        log_error("hex buffer too small");
         return false;
     }
 
@@ -35,11 +37,14 @@ bool hex_to_bytes(
     unsigned char *const byte_buffer,
     const int byte_buffer_size
 ) {
-    for (int i = 0; hex[i] != 0; i++) {
+    const int hex_size = strlen(hex);
+    if (byte_buffer_size < hex_to_bytes_size(hex_size)) {
+        log_error("byte buffer too small");
+        return false;
+    }
+
+    for (int i = 0; i < hex_size; i++) {
         int byte_index = i / 2;
-        if (byte_index >= byte_buffer_size) {
-            return false;
-        }
 
         char hex_char = hex[i];
         int ascii_offset = 0;
@@ -50,6 +55,7 @@ bool hex_to_bytes(
         } else if (hex_char >= 'a' && hex_char <= 'f') {
             ascii_offset = 87;
         } else {
+            log_error("invalid hex character: decimal value: %hhd", hex_char);
             return false;
         }
 

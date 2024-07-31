@@ -1,6 +1,7 @@
 target_sources(
     cryptopals
     PRIVATE
+    log.h
     main.c
 )
 

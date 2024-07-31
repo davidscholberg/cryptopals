@@ -26,6 +26,7 @@ target_compile_options(
     -Wextra
     -Werror
     -Wpedantic
+    "-ffile-prefix-map=${CMAKE_SOURCE_DIR}/="
 )
 
 add_subdirectory(src)
