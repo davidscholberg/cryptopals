@@ -15,35 +15,29 @@ bool s02(char* const out_buffer, const int out_buffer_size) {
     const int input_hex_size = strlen(input_hex_1);
 
     const int byte_buffer_size = hex_to_bytes_size(input_hex_size);
-    unsigned char* const input_byte_buffer = malloc(byte_buffer_size * 2);
-    if (!input_byte_buffer) {
+    unsigned char* const byte_buffers = malloc(byte_buffer_size * 3);
+    if (!byte_buffers) {
         log_error("malloc failed");
-        goto s02_clean_exit;
+        goto s02_exit;
     }
 
-    unsigned char* const input_byte_buffer_1 = input_byte_buffer;
-    unsigned char* const input_byte_buffer_2 = input_byte_buffer + byte_buffer_size;
+    unsigned char* const input_byte_buffer_1 = byte_buffers;
+    unsigned char* const input_byte_buffer_2 = byte_buffers + byte_buffer_size;
+    unsigned char* const xor_byte_buffer = byte_buffers + (2 * byte_buffer_size);
+
     if (!hex_to_bytes(input_hex_1, input_byte_buffer_1, byte_buffer_size)) {
-        goto s02_cleanup_input_byte_buffer;
+        goto s02_cleanup_byte_buffers;
     }
     if (!hex_to_bytes(input_hex_2, input_byte_buffer_2, byte_buffer_size)) {
-        goto s02_cleanup_input_byte_buffer;
-    }
-
-    unsigned char* const xor_byte_buffer = malloc(byte_buffer_size);
-    if (!xor_byte_buffer) {
-        log_error("malloc failed");
-        goto s02_cleanup_input_byte_buffer;
+        goto s02_cleanup_byte_buffers;
     }
 
     xor_bytes(input_byte_buffer_1, input_byte_buffer_2, xor_byte_buffer, byte_buffer_size);
     status = bytes_to_hex(xor_byte_buffer, byte_buffer_size, out_buffer, out_buffer_size);
 
-    free(xor_byte_buffer);
+s02_cleanup_byte_buffers:
+    free(byte_buffers);
 
-s02_cleanup_input_byte_buffer:
-    free(input_byte_buffer);
-
-s02_clean_exit:
+s02_exit:
     return status;
 }
