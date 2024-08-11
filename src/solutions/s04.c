@@ -1,16 +1,28 @@
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "ciphers/xor.h"
 #include "codecs/decode_lines.h"
 #include "codecs/hex.h"
+#include "resources/resources.h"
 #include "uncrypt/break_xor.h"
 #include "utility/files.h"
 
 // Challenge 4: Find the string in the input array that has been single-byte xored.
 bool s04(char* const out_buffer, const int out_buffer_size) {
+    status = false;
+
+    int max_hex_strlen = 0;
+    int current_strlen = 0;
+    for (int i = 0; i < s04_hex_string_array_txt_size; i++) {
+        if (s04_hex_string_array_txt[i] == '\n') {
+            if (current_strlen > max_hex_strlen)
+                max_hex_strlen = current_strlen;
+            current_strlen = 0;
+            continue;
+        }
+        current_strlen++;
+    }
     int line_count = 0;
     char** lines = file_to_lines("s04_hex_string_array.txt", &line_count);
     if (!lines) {
